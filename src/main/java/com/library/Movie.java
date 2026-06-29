@@ -10,7 +10,7 @@ public class Movie implements Serializable {
     private String description;
     private String personalImpressions;
     private int personalRating;
-    private String videoUrl; // Може бути посиланням на YouTube або шляхом до файлу
+    private String videoUrl;
     private boolean isCustom;
 
     public Movie(String id, String title, String genre, double imdbRating,
