@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+<?import javafx.scene.media.MediaView?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.library.Controller" stylesheets="@style.css" prefWidth="1000" prefHeight="650">
+
+    <!-- Головна панель розділення -->
+    <center>
+        <SplitPane dividerPositions="0.32">
+
+            <!-- ЛІВА ЧАСТИНА: Список фільмів та кнопки дій -->
+            <VBox spacing="10" styleClass="sidebar-panel">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
+
+                <Label text="Бібліотека Трейлерів" styleClass="brand-title"/>
+
+                <!-- Пошуковий рядок -->
+                <TextField fx:id="searchField" promptText="Пошук трейлерів..." onKeyReleased="#handleSearch"/>
+
+                <!-- Список фільмів -->
+                <ListView fx:id="movieListView" VBox.vgrow="ALWAYS" onMouseClicked="#handleMovieSelect"/>
+
+                <!-- Кнопки керування списком -->
+                <HBox spacing="10">
+                    <Button fx:id="btnAddMovie" text="➕ Додати новий" onAction="#handleAddNewMovie" maxWidth="Infinity" HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="btnDeleteMovie" text="🗑 Видалити" onAction="#handleDeleteMovie" styleClass="btn-danger"/>
+                </HBox>
+            </VBox>
+
+            <!-- ПРАВА ЧАСТИНА: Плеєр та деталі фільму -->
+            <ScrollPane fitToWidth="true" styleClass="main-content-scroll">
+                <VBox spacing="20" styleClass="content-panel">
+                    <padding>
+                        <Insets top="15" right="15" bottom="15" left="15"/>
+                    </padding>
+
+                    <!-- Область перегляду відео -->
+                    <StackPane fx:id="mediaContainer" styleClass="video-viewport" prefHeight="360">
+                        <!-- Для локальних відеофайлів -->
+                        <MediaView fx:id="mediaView" visible="false"/>
+                        <!-- Для YouTube трейлерів -->
+                        <WebView fx:id="webView" visible="true"/>
+                    </StackPane>
+
+                    <!-- Кнопки керування медіафайлами -->
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Button fx:id="btnPlay" text="🌐 Відкрити в браузері" onAction="#handlePlay"/>
+                    </HBox>
+
+                    <!-- Деталі обраного фільму -->
+                    <VBox spacing="12" styleClass="details-container">
+                        <HBox alignment="CENTER_LEFT" spacing="15">
+                            <Label fx:id="lblTitle" text="Оберіть фільм зі списку" styleClass="movie-title"/>
+                        </HBox>
+
+                        <HBox spacing="20">
+                            <Label fx:id="lblGenre" text="Жанр: -" styleClass="info-label"/>
+                            <Label fx:id="lblImdbRating" text="IMDb: -" styleClass="info-label, star-label"/>
+                            <Label fx:id="lblPersonalRating" text="Моя оцінка: -" styleClass="info-label, heart-label"/>
+                        </HBox>
+
+                        <Separator/>
+
+                        <VBox spacing="5">
+                            <Label text="Опис фільму:" styleClass="section-header"/>
+                            <TextArea fx:id="txtDescription" wrapText="true" editable="false" prefHeight="100" styleClass="text-area-readonly"/>
+                        </VBox>
+
+                        <VBox spacing="5">
+                            <Label text="Мої особисті враження:" styleClass="section-header"/>
+                            <TextArea fx:id="txtImpressions" wrapText="true" prefHeight="100"/>
+                        </VBox>
+
+                        <HBox alignment="TOP_RIGHT" spacing="10">
+                            <Label text="Ваша оцінка (1-10):" alignment="CENTER"/>
+                            <Spinner fx:id="spinnerPersonalRating" initialValue="8" min="1" max="10" prefWidth="70"/>
+                            <Button text="💾 Зберегти зміни" onAction="#handleSaveChanges" styleClass="btn-save"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+
+        </SplitPane>
+    </center>
+</BorderPane>
